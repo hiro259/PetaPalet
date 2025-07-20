@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { openDB } from "idb"
+import { dbPromise } from "./lib/db"
 
 export const HistoryPanel = () => {
   const [items, setItems] = useState<
@@ -8,7 +8,7 @@ export const HistoryPanel = () => {
 
   useEffect(() => {
     ;(async () => {
-      const db = await openDB("clipboard-db", 1)
+      const db = await dbPromise
       const tx = db.transaction("items", "readonly")
       const all = await tx.store.getAll()
       setItems(all.reverse()) // 新しい順
